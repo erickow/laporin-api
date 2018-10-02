@@ -40,3 +40,15 @@ URL: http://domain/api/user/login
 
 GET /user/me.json
 URL: http://domain/api/user/me.json
+
+##  Report
+
+GET /report/all
+URL: http://domain/api/report/all
+
+POST /report 
+URL: http://domain/api/report
+
+DELETE
+URL: http://domain/api/report
+

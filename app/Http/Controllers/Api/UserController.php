@@ -49,7 +49,7 @@ class UserController extends Controller
             $createUser = User::create($dataUser);
 
             $response = [];
-            $response['status'] = 200;
+            $response['status'] = 201;
             $response['name'] = $dataUser['name'];
             $response['phone'] = $dataUser['phone'];
             $response['username'] = $dataUser['username'];
