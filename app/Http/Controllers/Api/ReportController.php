@@ -20,7 +20,7 @@ class ReportController extends Controller
         $response = ['status' => 500, 'errorMessage' => 'Internal Server Error'];
 
         try {
-            $response = Report::all();
+            $response = Report::paginate();
             $response['status'] = 200;
 
         } catch (\Exception $e) {
@@ -42,7 +42,7 @@ class ReportController extends Controller
 
         try {
             $response = [];
-            $response = Report::find($id);
+            $response['data'] = Report::find($id);
             $response['status'] = 200;
 
         } catch (\Exception $e) {
@@ -93,8 +93,8 @@ class ReportController extends Controller
             $dataReport['location'] = $request->location;
             $dataReport['long'] = $request->long;
             $dataReport['lat'] = $request->lat;
-            $dataReport['created_by'] = $request->created_by;
-            $dataReport['updated_by'] = $request->updated_by;
+            $dataReport['created_by'] = Auth::guard('api')->user()->id;
+            $dataReport['updated_by'] = Auth::guard('api')->user()->id;
 
             $createUser = Report::create($dataReport);
 
@@ -131,8 +131,6 @@ class ReportController extends Controller
             'location' => 'required|string',
             'long' => 'required',
             'lat' => 'required',
-            'created_by' => 'required|integer',
-            'updated_by' => 'required|integer',
         ]);
 
         if(!Auth::guard('api')->check()) {
@@ -153,8 +151,8 @@ class ReportController extends Controller
             $dataReport->location = $request->location;
             $dataReport->long = $request->long;
             $dataReport->lat = $request->lat;
-            $dataReport->created_by = $request->created_by;
-            $dataReport->updated_by = $request->updated_by;
+            $dataReport->created_by = Auth::guard('api')->user()->id;
+            $dataReport->updated_by = Auth::guard('api')->user()->id;
 
             $dataReport->save();
 

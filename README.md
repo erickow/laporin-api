@@ -43,10 +43,16 @@ URL: http://domain/api/user/me.json
 
 ##  Report
 
-GET /report/all
-URL: http://domain/api/report/all
+GET /report.json
+URL: http://domain/api/report.json?page=1
+
+GET /report/{id}
+URL: http://domain/api/report/1
 
 POST /report 
+URL: http://domain/api/report
+
+PATCH /report
 URL: http://domain/api/report
 
 DELETE
