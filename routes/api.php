@@ -26,3 +26,6 @@ Route::get('report/{id}', 'Api\ReportController@getReportById')->name('report.ge
 Route::post('report', 'Api\ReportController@createReport')->name('report.create');
 Route::patch('report', 'Api\ReportController@updateReport')->name('report.update');
 Route::delete('report', 'Api\ReportController@deleteReport')->name('report.delete');
+
+Route::post('image/report', 'Api\FileUploadController@storeImageReport')->name('report.storeImageReport');
+Route::post('image/user', 'Api\FileUploadController@storeImageUser')->name('report.storeImageUser');

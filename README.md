@@ -58,3 +58,16 @@ URL: http://domain/api/report
 DELETE
 URL: http://domain/api/report
 
+##  Image
+
+GET /image/report
+URL: http://domain/image/report/namaFile.png
+
+GET /image/user
+URL: http://domain/image/user/namaFile.png
+
+POST /image/report
+URL: http://domain/api/image/report
+
+POST /image/user
+URL: http://domain/api/image/report

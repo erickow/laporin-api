@@ -15,6 +15,9 @@ class CreateReportImageTable extends Migration
     {
         Schema::create('report_image', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('filename');
+            $table->string('mime');
+            $table->string('original_filename');
             $table->integer('report_id');
             $table->integer('created_by');
             $table->integer('updated_by');

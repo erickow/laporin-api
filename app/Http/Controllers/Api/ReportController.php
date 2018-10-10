@@ -68,9 +68,7 @@ class ReportController extends Controller
             'description' => 'required',
             'location' => 'required|string',
             'long' => 'required',
-            'lat' => 'required',
-            'created_by' => 'required|integer',
-            'updated_by' => 'required|integer',
+            'lat' => 'required'
         ]);
 
         if(!Auth::guard('api')->check()) {
