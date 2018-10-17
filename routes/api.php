@@ -20,6 +20,7 @@ use Illuminate\Http\Request;
 Route::get('user/me.json', 'Api\UserController@show')->name('user.show');
 Route::post('user/login', 'Api\UserController@login')->name('user.login');
 Route::post('user/register', 'Api\UserController@register')->name('user.register');
+Route::patch('user/edit', 'Api\UserController@edit')->name('user.edit');
 
 Route::get('report.json', 'Api\ReportController@getAllReport')->name('report.getAllReport');
 Route::get('report/{id}', 'Api\ReportController@getReportById')->name('report.getReportById');

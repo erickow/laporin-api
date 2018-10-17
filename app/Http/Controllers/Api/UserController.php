@@ -26,7 +26,7 @@ class UserController extends Controller
             'name' => 'required|min:3',
             'password' => 'required|min:6',
             'phone' => 'required|unique:users|min:10',
-            'username' => 'required|min:4',
+            'username' => 'required|unique:users|min:4',
         ]);
 
         if ($validator->fails()) {
@@ -49,7 +49,7 @@ class UserController extends Controller
             $createUser = User::create($dataUser);
 
             $response = [];
-            $response['status'] = 201;
+            $response['status'] = 200;
             $response['name'] = $dataUser['name'];
             $response['phone'] = $dataUser['phone'];
             $response['username'] = $dataUser['username'];
@@ -124,6 +124,91 @@ class UserController extends Controller
             $response = Auth::guard('api')->user();
             $response['status'] = 200;
 
+        } catch (\Exception $e) {
+            $response['errorMessage'] = $e->getMessage();
+        }
+
+        return response()->json($response);
+    }
+
+    /**
+     * Show detail user by token
+     *
+     * @return Response
+     */
+    public function edit(Request $request)
+    {
+        $response = ['status' => 500, 'errorMessage' => 'Internal Server Error'];
+
+        if (!Auth::guard('api')->check()) {
+            $response['status'] = 400;
+            $response['errorMessage'] = "Token is wrong, please try again later";
+            return response()->json($response);
+        }
+
+        $getUser = User::find(Auth::guard('api')->id());
+        if (!$getUser) {
+            $response['status'] = 400;
+            $response['errorMessage'] = "Data user not found";
+            return response()->json($response);
+        }
+
+        $rules = [];
+
+        if ($request->email && $request->email != Auth::guard('api')->user()->email)
+            $rules['email'] = 'email|unique:users';
+
+        if ($request->phone && $request->phone != Auth::guard('api')->user()->phone)
+            $rules['phone'] = 'email|unique:users';
+
+        if ($request->gender)
+            $rules['gender'] = 'numeric|between:1,2';
+
+        $validator = Validator::make($request->all(), $rules);
+        if ($validator->fails()) {
+            $response['status'] = 400;
+            $response['errorMessage'] = implode(" ", $validator->errors()->all());
+            return response()->json($response);
+        }
+
+        try {
+            $user = Auth::guard('api')->user();
+
+            if ($request->email) {
+                $user->email = $request->email;
+                $getUser->email = $request->email;
+            }
+
+            if ($request->gender) {
+                $user->gender = $request->gender;
+                $getUser->gender = intval($request->gender);
+            }
+
+            if ($request->address) {
+                $user->address = $request->address;
+                $getUser->address = $request->address;
+            }
+
+            if ($request->phone) {
+                $user->phone = $request->phone;
+                $getUser->phone = $request->phone;
+            }
+
+            if ($request->name) {
+                $user->name = $request->name;
+                $getUser->name = $request->name;
+            }
+
+            if ($request->identity_number) {
+                $user->identity_number = $request->identity_number;
+                $getUser->identity_number = $request->identity_number;
+            }
+
+            $getUser->save();
+            $user->save();
+            
+            $response = $user;
+            $response['status'] = 200;
         } catch (\Exception $e) {
             $response['errorMessage'] = $e->getMessage();
         }
