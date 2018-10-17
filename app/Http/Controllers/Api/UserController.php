@@ -45,14 +45,11 @@ class UserController extends Controller
             $dataUser['password'] = bcrypt($request->password);
             $dataUser['phone'] = $request->phone;
             $dataUser['username'] = $request->username;
-
             $createUser = User::create($dataUser);
 
             $response = [];
             $response['status'] = 200;
-            $response['name'] = $dataUser['name'];
-            $response['phone'] = $dataUser['phone'];
-            $response['username'] = $dataUser['username'];
+            $response['data'] = $createUser;
 
             \DB::commit();
         } catch (\Exception $e) {
@@ -86,7 +83,6 @@ class UserController extends Controller
         }
 
         try {
-
             $authAttempt = Auth::attempt(['username' => $request->username, 'password' => $request->password]);
             if (!$authAttempt)
                 throw new \Exception('The credentials you entered did not match our records. Try again?');
@@ -97,7 +93,6 @@ class UserController extends Controller
             $response = [];
             $response['status'] = 200;
             $response['token'] = $token;
-
         } catch (\Exception $e) {
             $response['errorMessage'] = $e->getMessage();
         }
@@ -121,9 +116,9 @@ class UserController extends Controller
         }
 
         try {
-            $response = Auth::guard('api')->user();
+            $response = [];
+            $response['data'] = Auth::guard('api')->user();
             $response['status'] = 200;
-
         } catch (\Exception $e) {
             $response['errorMessage'] = $e->getMessage();
         }
@@ -207,7 +202,8 @@ class UserController extends Controller
             $getUser->save();
             $user->save();
             
-            $response = $user;
+            $response = [];
+            $response['data'] = $user;
             $response['status'] = 200;
         } catch (\Exception $e) {
             $response['errorMessage'] = $e->getMessage();
