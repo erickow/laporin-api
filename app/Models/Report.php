@@ -1,11 +1,12 @@
 <?php
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Report extends Model
 {
+    use SoftDeletes;
 
     public $table = "report";
     /**
@@ -14,6 +15,16 @@ class Report extends Model
      * @var array
      */
     protected $fillable = [
-      'type_id', 'description', 'location', 'long', 'lat', 'created_by', 'updated_by'
-  ];
+        'type_id', 'description', 'location', 'long', 'lat', 'created_by', 'updated_by'
+  	];
+
+  	public function type() 
+  	{
+  		return $this->belongsTo('App\Models\ReportType');
+  	}
+
+  	public function images() 
+  	{
+  		return $this->hasMany('App\Models\ReportImage');
+  	}
 }

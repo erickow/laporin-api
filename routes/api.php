@@ -20,12 +20,15 @@ use Illuminate\Http\Request;
 Route::get('user/me.json', 'Api\UserController@show')->name('user.show');
 Route::post('user/login', 'Api\UserController@login')->name('user.login');
 Route::post('user/register', 'Api\UserController@register')->name('user.register');
+Route::patch('user/edit', 'Api\UserController@edit')->name('user.edit');
 
 Route::get('report.json', 'Api\ReportController@getAllReport')->name('report.getAllReport');
+Route::get('report/me.json', 'Api\ReportController@getMyReport')->name('report.getMyReport');
 Route::get('report/{id}', 'Api\ReportController@getReportById')->name('report.getReportById');
 Route::post('report', 'Api\ReportController@createReport')->name('report.create');
-Route::patch('report', 'Api\ReportController@updateReport')->name('report.update');
-Route::delete('report', 'Api\ReportController@deleteReport')->name('report.delete');
+Route::patch('report/{id}', 'Api\ReportController@updateReport')->name('report.update');
+Route::delete('report/{id}', 'Api\ReportController@deleteReport')->name('report.delete');
 
 Route::post('image/report', 'Api\FileUploadController@storeImageReport')->name('report.storeImageReport');
 Route::post('image/user', 'Api\FileUploadController@storeImageUser')->name('report.storeImageUser');
+Route::post('image/me', 'Api\FileUploadController@storeImageMe')->name('report.storeImageMe');
